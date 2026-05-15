@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#ffb3ac",
+                    "on-primary-fixed": "#00105b",
+                    "inverse-surface": "#213145",
+                    "on-secondary-container": "#00714d",
+                    "surface-bright": "#f8f9ff",
+                    "error-container": "#ffdad6",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed": "#ffdad6",
+                    "secondary-fixed": "#6ffbbe",
+                    "on-secondary-fixed": "#002113",
+                    "background": "#f8f9ff",
+                    "surface-container-low": "#eff4ff",
+                    "on-primary": "#ffffff",
+                    "on-primary-container": "#c9cfff",
+                    "surface-dim": "#cbdbf5",
+                    "inverse-primary": "#bac3ff",
+                    "on-tertiary-fixed": "#410003",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-primary-fixed-variant": "#0f33c0",
+                    "error": "#ba1a1a",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-tertiary-fixed-variant": "#87201e",
+                    "on-tertiary-container": "#ffc3bd",
+                    "secondary-fixed-dim": "#4edea3",
+                    "primary": "#032dbc",
+                    "outline": "#757686",
+                    "tertiary": "#811b1a",
+                    "primary-fixed-dim": "#bac3ff",
+                    "on-surface-variant": "#444654",
+                    "surface": "#f8f9ff",
+                    "primary-container": "#2e4ad3",
+                    "surface-tint": "#344fd8",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-variant": "#d3e4fe",
+                    "tertiary-container": "#a1332f",
+                    "primary-fixed": "#dee0ff",
+                    "surface-container": "#e5eeff",
+                    "on-surface": "#0b1c30",
+                    "on-tertiary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "secondary-container": "#6cf8bb",
+                    "outline-variant": "#c5c5d7",
+                    "secondary": "#006c49",
+                    "on-secondary-fixed-variant": "#005236",
+                    "on-background": "#0b1c30",
+                    "on-error-container": "#93000a",
+                    "surface-container-high": "#dce9ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "64px",
+                    "md": "24px",
+                    "base": "4px",
+                    "sm": "16px",
+                    "lg": "40px",
+                    "container-max": "1200px",
+                    "xs": "8px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "title-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "title-lg": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8f9ff; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(226, 232, 240, 0.5); }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm border-b border-slate-200 dark:border-slate-800">
+<div class="flex justify-between items-center h-16 px-6 max-w-7xl mx-auto w-full">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tight text-indigo-700 dark:text-indigo-300">TIU Prep</span>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 pb-1 font-semibold font-inter text-sm" href="#">Dashboard</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-indigo-500 dark:hover:text-indigo-300 transition-colors font-inter text-sm" href="#">Practice</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-indigo-500 dark:hover:text-indigo-300 transition-colors font-inter text-sm" href="#">Analysis</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-indigo-500 dark:hover:text-indigo-300 transition-colors font-inter text-sm" href="#">Materials</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden md:block material-symbols-outlined text-slate-500 hover:text-indigo-600 transition-colors">notifications</button>
+<button class="hidden md:block material-symbols-outlined text-slate-500 hover:text-indigo-600 transition-colors">settings</button>
+<button class="bg-primary hover:bg-primary-container text-on-primary px-5 py-2 rounded-lg font-semibold text-sm transition-all active:scale-95 duration-150" onclick="window.location.href='#login'">Start Session</button>
+</div>
+</div>
+</nav>
+<main class="pt-24">
+<!-- Hero Section -->
+<section class="max-w-7xl mx-auto px-6 py-16 md:py-24 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+<div class="space-y-8">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-primary-fixed text-primary rounded-full">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="text-label-md font-label-md">POWERED BY AI ADAPTIVE LEARNING</span>
+</div>
+<h1 class="text-display-lg font-display-lg text-on-surface leading-tight">
+                    Kuasai TIU dengan Latihan Adaptif Berbasis AI
+                </h1>
+<p class="text-body-md font-body-md text-on-surface-variant max-w-lg">
+                    Optimalkan persiapan Tes Intelegensia Umum Anda dengan platform pelacakan progres terpintar. Kami menganalisis setiap jawaban untuk memberikan peta jalan belajar yang dipersonalisasi.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="bg-primary text-on-primary px-8 py-4 rounded-xl font-headline-md text-lg hover:shadow-lg transition-all active:scale-95 shadow-primary/30" onclick="window.location.href='#login'">
+                        Mulai Latihan
+                    </button>
+<button class="border-outline-variant text-on-surface px-8 py-4 rounded-xl font-headline-md text-lg hover:bg-surface-container transition-all active:scale-95 border" onclick="window.location.href='#demo'">
+                        Lihat Demo
+                    </button>
+</div>
+<div class="flex items-center gap-4 text-body-sm font-body-sm text-on-surface-variant">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-200"></div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-300"></div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-400"></div>
+</div>
+<span>Bergabung dengan 10,000+ Pejuang CPNS</span>
+</div>
+</div>
+<div class="relative group">
+<div class="absolute -inset-4 bg-primary/10 rounded-3xl blur-2xl group-hover:bg-primary/20 transition-all duration-500"></div>
+<img alt="Dashboard Preview" class="relative rounded-2xl shadow-2xl border border-outline-variant w-full" data-alt="A clean and professional user interface dashboard of an educational software, displaying colorful performance charts, progress bars, and academic statistics. The layout is structured in a modern card-based grid with a light, airy background and indigo accents. Soft daylight illuminates the screen, creating a focused and encouraging learning environment. The overall aesthetic is minimalist, sleek, and high-end corporate tech." src="https://lh3.googleusercontent.com/aida/ADBb0ugIAgedePZ9kHmx2BApMAopylXAvaQaH1wk9uyQfbng1lwLbgekx3q5a1aAudqoDmL9EaA2QLxUNMhmWHK-ddTFdc5T4A-M8BYVx13yIcNHILSxeI8Wo2hWRznCG4t_sxLZu0oDSQniVr_KHWhfV6R6lxQAbF75l_LAtIKXjFePiRv1OEcfbMYqOGNpvIgCmDzfiCnb0eLNs5ZwfksNqPPQv77ygjR1bphduLOH5vDvB90gCmbX92YhNm1XQ3d6FFI221jUSwei6bU"/>
+</div>
+</section>
+<!-- Features Bento Grid -->
+<section class="max-w-7xl mx-auto px-6 py-20 bg-surface-container-low rounded-[40px] mb-20">
+<div class="text-center mb-16">
+<h2 class="text-headline-md font-headline-md text-on-surface mb-4">Fitur Unggulan TIU Tracker</h2>
+<p class="text-body-md font-body-md text-on-surface-variant max-w-2xl mx-auto">Dirancang untuk efisiensi maksimal dalam memetakan kemampuan kognitif Anda.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Large Feature Card -->
+<div class="md:col-span-2 bg-white p-8 rounded-3xl border border-outline-variant shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<div class="w-12 h-12 bg-secondary-container text-on-secondary-container rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined">analytics</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-on-surface mb-4">Analisis Real-time</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Dapatkan feedback instan setelah setiap soal. Algoritma kami menghitung akurasi, kecepatan, dan konsistensi Anda secara langsung untuk memetakan kurva belajar yang akurat.</p>
+</div>
+<div class="mt-8 flex gap-2">
+<span class="px-3 py-1 bg-surface-variant text-on-surface-variant rounded-full text-label-md">Kecepatan</span>
+<span class="px-3 py-1 bg-surface-variant text-on-surface-variant rounded-full text-label-md">Akurasi</span>
+<span class="px-3 py-1 bg-surface-variant text-on-surface-variant rounded-full text-label-md">Stamina</span>
+</div>
+</div>
+<!-- Secondary Card -->
+<div class="bg-primary-container text-white p-8 rounded-3xl shadow-sm flex flex-col justify-between hover:scale-[1.02] transition-transform">
+<div>
+<div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined">track_changes</span>
+</div>
+<h3 class="text-title-lg font-title-lg mb-4">Rekomendasi Fokus</h3>
+<p class="text-body-sm font-body-sm opacity-90">AI kami mendeteksi kelemahan spesifik Anda dan menyarankan sub-bab mana yang harus dipelajari lebih dalam hari ini.</p>
+</div>
+<button class="mt-6 text-white font-semibold flex items-center gap-2 group">
+                        Coba Sekarang <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+<!-- Small Grid Items -->
+<div class="bg-white p-8 rounded-3xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+<div class="w-12 h-12 bg-tertiary-container text-on-tertiary-container rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined">category</span>
+</div>
+<h3 class="text-title-lg font-title-lg text-on-surface mb-2">9 Sub-bab Terpantau</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Mencakup Verbal, Numerik, dan Figural secara mendalam dan terstruktur.</p>
+</div>
+<div class="bg-white p-8 rounded-3xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+<div class="w-12 h-12 bg-secondary-fixed text-on-secondary-fixed rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined">history_edu</span>
+</div>
+<h3 class="text-title-lg font-title-lg text-on-surface mb-2">Simulasi Tryout</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Rasakan pengalaman ujian sesungguhnya dengan batas waktu yang menantang.</p>
+</div>
+<div class="bg-white p-8 rounded-3xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+<div class="w-12 h-12 bg-primary-fixed text-on-primary-fixed rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined">workspace_premium</span>
+</div>
+<h3 class="text-title-lg font-title-lg text-on-surface mb-2">Sertifikat Progres</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Pantau pencapaian Anda dan dapatkan lencana setiap kali menguasai materi.</p>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="max-w-7xl mx-auto px-6 py-20">
+<div class="relative bg-inverse-surface text-inverse-on-surface rounded-[40px] p-12 overflow-hidden">
+<div class="absolute top-0 right-0 w-1/3 h-full bg-primary/20 blur-3xl rounded-full translate-x-1/2 -translate-y-1/2"></div>
+<div class="relative z-10 text-center md:text-left md:flex items-center justify-between gap-12">
+<div class="max-w-2xl">
+<h2 class="text-headline-md font-headline-md mb-6">Siap Menaklukkan Ambang Batas TIU?</h2>
+<p class="text-body-md font-body-md opacity-80 mb-8 md:mb-0">Daftar sekarang dan dapatkan akses ke 5 sesi latihan adaptif pertama secara gratis. Mulai perjalanan karir impian Anda bersama TIU Tracker.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4 shrink-0">
+<button class="bg-primary-fixed text-on-primary-fixed px-10 py-5 rounded-2xl font-bold text-lg hover:bg-secondary-fixed transition-colors" onclick="window.location.href='#login'">
+                            Mulai Latihan Gratis
+                        </button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
+<div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex flex-col items-center md:items-start gap-2">
+<span class="font-bold text-slate-700 dark:text-slate-200 text-lg">TIU Tracker</span>
+<span class="font-inter text-xs text-slate-500 dark:text-slate-400">© 2024 TIU Adaptive Learning Platform. All rights reserved.</span>
+</div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="font-inter text-xs text-slate-500 hover:text-indigo-500 transition-opacity" href="#">Terms of Service</a>
+<a class="font-inter text-xs text-slate-500 hover:text-indigo-500 transition-opacity" href="#">Privacy Policy</a>
+<a class="font-inter text-xs text-slate-500 hover:text-indigo-500 transition-opacity" href="#">Contact Support</a>
+<a class="font-inter text-xs text-slate-500 hover:text-indigo-500 transition-opacity" href="#">About Us</a>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 hover:text-indigo-600 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-sm">public</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 hover:text-indigo-600 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-sm">mail</span>
+</div>
+</div>
+</div>
+</footer>
+</body></html>
