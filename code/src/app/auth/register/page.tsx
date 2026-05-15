@@ -1,11 +1,11 @@
 'use client'
 
-import { Button } from '@/components/Button'
-import { Card, CardHeader, CardBody } from '@/components/Card'
 import Link from 'next/link'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function RegisterPage() {
+    const router = useRouter()
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -14,6 +14,8 @@ export default function RegisterPage() {
     })
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirm, setShowConfirm] = useState(false)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -25,7 +27,12 @@ export default function RegisterPage() {
         setError('')
 
         if (formData.password !== formData.confirmPassword) {
-            setError('Passwords do not match')
+            setError('Password tidak cocok')
+            return
+        }
+
+        if (formData.password.length < 6) {
+            setError('Password minimal 6 karakter')
             return
         }
 
@@ -42,118 +49,289 @@ export default function RegisterPage() {
                 }),
             })
 
+            const data = await response.json()
+
             if (!response.ok) {
-                const data = await response.json()
-                setError(data.message || 'Registration failed')
+                setError(data.message || 'Registrasi gagal')
                 return
             }
 
-            // Redirect to login
-            window.location.href = '/auth/login'
-        } catch (err) {
-            setError('An error occurred. Please try again.')
+            if (data.autoLogin) {
+                router.push('/dashboard')
+                router.refresh()
+            } else {
+                router.push('/auth/login?registered=true')
+            }
+        } catch {
+            setError('Terjadi kesalahan. Silakan coba lagi.')
         } finally {
             setLoading(false)
         }
     }
 
     return (
-        <main className="min-h-screen bg-background flex items-center justify-center px-4 py-12">
-            <div className="w-full max-w-md">
-                <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold text-primary mb-2">TIU Prep</h1>
-                    <p className="text-on-surface-variant">Create your account</p>
+        <div className="min-h-screen flex bg-background text-on-background">
+            {/* Left Branding Panel */}
+            <div className="hidden lg:flex lg:w-7/12 relative flex-col justify-between p-16 overflow-hidden bg-primary">
+                <div className="absolute inset-0 z-0 bg-gradient-to-br from-primary via-primary-container/80 to-primary-container/50" />
+                <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-white/5 z-0" />
+                <div className="absolute bottom-16 -left-16 w-64 h-64 rounded-full bg-white/5 z-0" />
+
+                {/* Logo */}
+                <div className="relative z-10 flex items-center gap-3">
+                    <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-lg">
+                        <svg className="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>
+                        </svg>
+                    </div>
+                    <span className="text-xl font-bold text-white tracking-tight">TIU Prep</span>
                 </div>
 
-                <Card>
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        <div>
-                            <label className="block text-label-md text-on-surface font-semibold mb-2">
-                                Full Name
-                            </label>
-                            <input
-                                type="text"
-                                name="name"
-                                value={formData.name}
-                                onChange={handleChange}
-                                placeholder="John Doe"
-                                required
-                                className="w-full px-4 py-2.5 border border-outline-variant rounded-lg focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-10 transition"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-label-md text-on-surface font-semibold mb-2">
-                                Email Address
-                            </label>
-                            <input
-                                type="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                placeholder="you@example.com"
-                                required
-                                className="w-full px-4 py-2.5 border border-outline-variant rounded-lg focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-10 transition"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-label-md text-on-surface font-semibold mb-2">
-                                Password
-                            </label>
-                            <input
-                                type="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                placeholder="••••••••"
-                                required
-                                className="w-full px-4 py-2.5 border border-outline-variant rounded-lg focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-10 transition"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-label-md text-on-surface font-semibold mb-2">
-                                Confirm Password
-                            </label>
-                            <input
-                                type="password"
-                                name="confirmPassword"
-                                value={formData.confirmPassword}
-                                onChange={handleChange}
-                                placeholder="••••••••"
-                                required
-                                className="w-full px-4 py-2.5 border border-outline-variant rounded-lg focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-10 transition"
-                            />
-                        </div>
-
-                        {error && (
-                            <div className="bg-error-container text-error p-3 rounded-lg text-sm">
-                                {error}
-                            </div>
-                        )}
-
-                        <Button type="submit" loading={loading} className="w-full">
-                            Create Account
-                        </Button>
-                    </form>
-
-                    <div className="mt-6 pt-6 border-t border-outline-variant">
-                        <p className="text-center text-body-sm text-on-surface-variant">
-                            Already have an account?{' '}
-                            <Link href="/auth/login" className="text-primary font-semibold hover:underline">
-                                Sign in
-                            </Link>
-                        </p>
+                {/* Stats showcase */}
+                <div className="relative z-10 max-w-xl">
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 rounded-full mb-6">
+                        <span className="text-secondary-fixed-dim text-sm font-semibold">✦ Gratis 7 Hari</span>
                     </div>
-                </Card>
+                    <h1 className="text-5xl font-bold text-white mb-6 leading-tight">
+                        Mulai Perjalanan Belajar Anda Hari Ini
+                    </h1>
+                    <p className="text-lg text-on-primary-container/80 leading-relaxed mb-8">
+                        Bergabung dengan 10.000+ peserta yang telah meningkatkan skor TIU mereka rata-rata 35% dalam 8 minggu.
+                    </p>
+                    <div className="grid grid-cols-3 gap-4">
+                        {[
+                            { value: '10K+', label: 'Pengguna Aktif' },
+                            { value: '500+', label: 'Soal Latihan' },
+                            { value: '98%', label: 'Tingkat Keberhasilan' },
+                        ].map((stat) => (
+                            <div key={stat.label} className="bg-white/10 rounded-xl p-4 text-center">
+                                <p className="text-2xl font-bold text-white">{stat.value}</p>
+                                <p className="text-xs text-white/70 mt-1">{stat.label}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
 
-                <div className="mt-6 text-center">
-                    <Link href="/" className="text-primary hover:underline text-body-sm">
-                        ← Back to home
-                    </Link>
+                {/* Feature list */}
+                <div className="relative z-10 space-y-3">
+                    {[
+                        'AI adaptif yang menyesuaikan level belajar Anda',
+                        'Analitik performa lengkap dan mendalam',
+                        'Ribuan soal latihan TIU berkualitas',
+                    ].map((item) => (
+                        <div key={item} className="flex items-center gap-3">
+                            <div className="w-6 h-6 rounded-full bg-secondary-fixed-dim/20 flex items-center justify-center">
+                                <svg className="w-4 h-4 text-secondary-fixed-dim" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <span className="text-sm text-white/90">{item}</span>
+                        </div>
+                    ))}
                 </div>
             </div>
-        </main>
+
+            {/* Right Form Panel */}
+            <div className="w-full lg:w-5/12 flex items-center justify-center px-6 py-12 lg:px-16 bg-surface">
+                <div className="w-full max-w-md">
+                    {/* Mobile logo */}
+                    <div className="lg:hidden flex items-center justify-center gap-3 mb-10">
+                        <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center">
+                            <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>
+                            </svg>
+                        </div>
+                        <span className="text-xl font-bold text-primary tracking-tight">TIU Prep</span>
+                    </div>
+
+                    {/* Header */}
+                    <div className="mb-8 text-center lg:text-left">
+                        <h2 className="text-3xl font-bold text-on-background mb-2">Buat Akun Baru</h2>
+                        <p className="text-on-surface-variant">Gratis untuk 7 hari pertama, tanpa kartu kredit.</p>
+                    </div>
+
+                    {/* Error */}
+                    {error && (
+                        <div className="mb-6 px-4 py-3 bg-error-container text-error rounded-xl text-sm flex items-center gap-2">
+                            <svg className="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd"/>
+                            </svg>
+                            {error}
+                        </div>
+                    )}
+
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                        {/* Full Name */}
+                        <div className="space-y-2">
+                            <label htmlFor="name" className="block text-xs font-semibold uppercase tracking-wider text-on-surface">
+                                Nama Lengkap
+                            </label>
+                            <div className="relative group">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-outline group-focus-within:text-primary transition-colors">
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                </div>
+                                <input
+                                    id="name"
+                                    type="text"
+                                    name="name"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    placeholder="John Doe"
+                                    required
+                                    className="w-full pl-12 pr-4 py-3.5 bg-white border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary focus:border-primary text-base transition-all outline-none text-on-surface placeholder:text-outline"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Email */}
+                        <div className="space-y-2">
+                            <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wider text-on-surface">
+                                Email
+                            </label>
+                            <div className="relative group">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-outline group-focus-within:text-primary transition-colors">
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                                    </svg>
+                                </div>
+                                <input
+                                    id="email"
+                                    type="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    placeholder="nama@email.com"
+                                    required
+                                    className="w-full pl-12 pr-4 py-3.5 bg-white border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary focus:border-primary text-base transition-all outline-none text-on-surface placeholder:text-outline"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Password */}
+                        <div className="space-y-2">
+                            <label htmlFor="password" className="block text-xs font-semibold uppercase tracking-wider text-on-surface">
+                                Kata Sandi
+                            </label>
+                            <div className="relative group">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-outline group-focus-within:text-primary transition-colors">
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                    </svg>
+                                </div>
+                                <input
+                                    id="password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    placeholder="Min. 6 karakter"
+                                    required
+                                    className="w-full pl-12 pr-12 py-3.5 bg-white border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary focus:border-primary text-base transition-all outline-none text-on-surface placeholder:text-outline"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-outline hover:text-on-surface transition-colors"
+                                >
+                                    {showPassword ? (
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                                        </svg>
+                                    ) : (
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
+                                    )}
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Confirm Password */}
+                        <div className="space-y-2">
+                            <label htmlFor="confirmPassword" className="block text-xs font-semibold uppercase tracking-wider text-on-surface">
+                                Konfirmasi Kata Sandi
+                            </label>
+                            <div className="relative group">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-outline group-focus-within:text-primary transition-colors">
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    </svg>
+                                </div>
+                                <input
+                                    id="confirmPassword"
+                                    type={showConfirm ? 'text' : 'password'}
+                                    name="confirmPassword"
+                                    value={formData.confirmPassword}
+                                    onChange={handleChange}
+                                    placeholder="Ulangi password"
+                                    required
+                                    className="w-full pl-12 pr-12 py-3.5 bg-white border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary focus:border-primary text-base transition-all outline-none text-on-surface placeholder:text-outline"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowConfirm(!showConfirm)}
+                                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-outline hover:text-on-surface transition-colors"
+                                >
+                                    {showConfirm ? (
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                                        </svg>
+                                    ) : (
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
+                                    )}
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Submit */}
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full py-3.5 px-6 bg-primary text-white font-semibold text-base rounded-xl shadow-lg shadow-primary/20 hover:bg-primary-container active:scale-[0.98] transition-all flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed mt-2"
+                        >
+                            {loading ? (
+                                <>
+                                    <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                    Membuat akun...
+                                </>
+                            ) : (
+                                <>
+                                    Buat Akun Gratis
+                                    <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                    </svg>
+                                </>
+                            )}
+                        </button>
+
+                        <p className="text-xs text-on-surface-variant text-center">
+                            Dengan mendaftar, Anda menyetujui{' '}
+                            <a href="#" className="text-primary hover:underline">Syarat & Ketentuan</a>
+                            {' '}dan{' '}
+                            <a href="#" className="text-primary hover:underline">Kebijakan Privasi</a>
+                        </p>
+                    </form>
+
+                    <p className="mt-8 text-center text-sm text-on-surface-variant">
+                        Sudah punya akun?{' '}
+                        <Link href="/auth/login" className="text-primary font-semibold hover:underline">
+                            Masuk
+                        </Link>
+                    </p>
+
+                    <div className="mt-4 text-center">
+                        <Link href="/" className="text-xs text-outline hover:text-primary transition-colors">
+                            ← Kembali ke beranda
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        </div>
     )
 }
