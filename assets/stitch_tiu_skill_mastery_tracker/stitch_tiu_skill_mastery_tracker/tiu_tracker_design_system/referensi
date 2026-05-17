@@ -1,0 +1,44 @@
+[Latihan]
+   │
+   ├─ 1. Pilih Mode
+   │  ├─ 📚 Drill Mode
+   │  │   └─ Instant feedback, 5-10 soal/topik
+   │  │
+   │  └─  Simulasi Mode
+   │      └─ Full test 90 soal, timed, nilai di akhir
+   │
+   ├─ 2. Pilih Kategori
+   │  ├─ Verbal / Numerik / Figural / Full
+   │
+   ├─ 3. Pilih Difficulty
+   │  ├─ Beginner / Intermediate / Advanced
+   │
+   │
+   └─ [Mulai Session]
+
+   [Analisis]
+   │
+   ├─ A. Overview (Existing)
+   │  ├─ Total sesi: 5
+   │  ├─ Drill sessions: 3
+   │  ├─ Simulasi sessions: 2
+   │  └─ Overall accuracy: 75%
+   │
+   ├─ B. Drill Progress (BARU)
+   │  ├─ Accuracy per topik:
+   │  │  ├─ Sinonim: 85% (↑ dari 60%)
+   │  │  ├─ Antonim: 70%
+   │  │  └─ Deret Angka: 90%
+   │  │
+   │  └─ Weak topics (<60%):
+   │     └─ Analogi: 55% → "Perlu drill lagi"
+   │
+   ├─ C. Simulasi History
+   │  ├─ Simulasi #1: 68% (15 Mei)
+   │  └─ Simulasi #2: 76% (20 Mei) ↑
+   │
+   └─ D. Smart Recommendations
+      ├─ Dari Drill: "Fokus Analogi (55%)"
+      └─ Dari Simulasi: "Siap ujian! Pertahankan"
+
+   https://chat.qwen.ai/s/6a57f917-4b2d-4de2-9472-b64c4dd7a9ed?fev=0.2.50

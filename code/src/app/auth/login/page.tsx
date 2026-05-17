@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase'
 
 export default function LoginPage() {
     const router = useRouter()
@@ -37,6 +38,28 @@ export default function LoginPage() {
         } catch {
             setError('Terjadi kesalahan. Silakan coba lagi.')
         } finally {
+            setLoading(false)
+        }
+    }
+
+    const handleGoogleLogin = async () => {
+        setLoading(true)
+        setError('')
+        try {
+            const supabase = createClient()
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: `${window.location.origin}/api/auth/callback`,
+                },
+            })
+
+            if (error) {
+                setError(error.message)
+                setLoading(false)
+            }
+        } catch (err) {
+            setError('Terjadi kesalahan saat login Google.')
             setLoading(false)
         }
     }
@@ -238,7 +261,9 @@ export default function LoginPage() {
                         {/* Google login */}
                         <button
                             type="button"
-                            className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-outline-variant rounded-xl hover:bg-surface-container transition-colors text-base font-medium text-on-surface"
+                            onClick={handleGoogleLogin}
+                            disabled={loading}
+                            className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-outline-variant rounded-xl hover:bg-surface-container transition-colors text-base font-medium text-on-surface disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                             <svg className="w-5 h-5" viewBox="0 0 24 24">
                                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
