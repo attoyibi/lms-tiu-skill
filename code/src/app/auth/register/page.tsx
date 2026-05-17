@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { GoogleAuthButton } from '@/components/GoogleAuthButton'
 
 export default function RegisterPage() {
     const router = useRouter()
@@ -316,6 +317,23 @@ export default function RegisterPage() {
                             {' '}dan{' '}
                             <a href="#" className="text-primary hover:underline">Kebijakan Privasi</a>
                         </p>
+
+                        <div className="relative py-2">
+                            <div className="absolute inset-0 flex items-center">
+                                <div className="w-full border-t border-outline-variant" />
+                            </div>
+                            <div className="relative flex justify-center">
+                                <span className="bg-surface px-4 text-xs uppercase tracking-wider text-outline font-medium">
+                                    Atau daftar dengan
+                                </span>
+                            </div>
+                        </div>
+
+                        <GoogleAuthButton
+                            disabled={loading}
+                            label="Daftar dengan Google"
+                            onError={setError}
+                        />
                     </form>
 
                     <p className="mt-8 text-center text-sm text-on-surface-variant">
