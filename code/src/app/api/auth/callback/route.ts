@@ -1,4 +1,5 @@
 import { createServerSupabaseClient } from '@/lib/supabase'
+import { getRequestOrigin } from '@/lib/site-url'
 import { NextResponse } from 'next/server'
 
 async function ensureProfile(supabase: Awaited<ReturnType<typeof createServerSupabaseClient>>) {
@@ -26,9 +27,10 @@ async function ensureProfile(supabase: Awaited<ReturnType<typeof createServerSup
 }
 
 export async function GET(request: Request) {
-  const { searchParams, origin } = new URL(request.url)
+  const { searchParams } = new URL(request.url)
   const code = searchParams.get('code')
   const next = searchParams.get('next') ?? '/dashboard'
+  const origin = getRequestOrigin(request)
 
   if (!code) {
     return NextResponse.redirect(`${origin}/auth/login?error=OAuthCallbackError`)
@@ -44,5 +46,6 @@ export async function GET(request: Request) {
 
   await ensureProfile(supabase)
 
-  return NextResponse.redirect(`${origin}${next}`)
+  const redirectPath = next.startsWith('/') ? next : '/dashboard'
+  return NextResponse.redirect(`${origin}${redirectPath}`)
 }
